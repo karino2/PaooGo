@@ -43,8 +43,8 @@ android {
     compileSdkVersion 36
 
     defaultConfig {
-        versionCode 4
-        versionName "0.4"
+        versionCode 5
+        versionName "0.5"
         minSdkVersion 26
         targetSdkVersion 36
         applicationId "io.github.karino2.paoogo"
