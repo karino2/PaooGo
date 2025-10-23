@@ -59,7 +59,7 @@ class Policy(val level : Int) {
     fun isStrong(te: Int, boardSize: Int) : Boolean {
         val pval = weakProb(te, boardSize*boardSize)
         val isStrong = Random.nextDouble() > pval
-        Log.d("PaooGo", "te=${te}, prob=${pval}, isStrong=${isStrong}")
+        // Log.d("PaooGo", "te=${te}, prob=${pval}, isStrong=${isStrong}")
 
         return isStrong
     }
