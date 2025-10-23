@@ -6,9 +6,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
+import io.github.karino2.paoogo.ui.vs_engine.Message
 import io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity
 import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.logic.Cell
+import org.ligi.gobandroid_hd.logic.GTPHelper
 import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.ui.GoActivity
 
@@ -18,7 +20,16 @@ class ReviewActivity: GoActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }
 
+    fun formatPV(cells: List<Cell>) : String {
+        return "PV: " + cells.joinToString(" ") {
+            GTPHelper.coordinates2gtpstr(it, game.boardSize)
+        }
+    }
+
     override fun doMoveWithUIFeedback(cell: Cell?): GoGame.MoveStatus {
+        cell?.let { game.findAnalyzeInfo(it) }?.let {
+            bus.post(Message(formatPV(it.pv)))
+        }
         game.clearAnalyzerInfo()
         game.ensureStartReviewVariation()
         return super.doMoveWithUIFeedback(cell)

@@ -95,6 +95,10 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
         analyzeInfo.addAll(info)
     }
 
+    fun findAnalyzeInfo(cell: Cell) : AnalyzeInfo? {
+        return analyzeInfo.find { it.cell.isEqual(cell) }
+    }
+
     fun clearAnalyzerInfo() {
         analyzeInfo.clear()
     }

@@ -16,9 +16,11 @@ import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.alerts.GameForwardAlert
 import org.ligi.gobandroid_hd.ui.fragments.GobandroidGameAwareFragment
 import androidx.lifecycle.lifecycleScope
+import io.github.karino2.paoogo.ui.vs_engine.Message
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.greenrobot.eventbus.Subscribe
 
 class ReviewFragment : GobandroidGameAwareFragment() {
     private var _binding: ReviewButtonContainerBinding? = null
@@ -149,5 +151,12 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             Snackbar.make(binding.btnLast, found_junction_snack_for_last, Snackbar.LENGTH_LONG).setAction(android.R.string.ok) { GoPrefs.hasAcknowledgedJunctionInfo = true }.show()
         }
     }
+
+    @Subscribe
+    fun showMessage(msg: Message) {
+        binding.txtMsg.text = msg.msg
+        // textView.text = msg.msg
+    }
+
 
 }

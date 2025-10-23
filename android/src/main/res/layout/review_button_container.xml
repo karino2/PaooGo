@@ -4,40 +4,53 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:padding="1dip"
+            android:orientation="vertical"
               android:animateLayoutChanges="true">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <androidx.appcompat.widget.AppCompatImageView
             app:srcCompat="@drawable/ic_navigation_first_page"
             android:id="@+id/btn_first"
             style="@style/navButton"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             app:srcCompat="@drawable/ic_navigation_chevron_left"
             android:id="@+id/btn_prev"
             style="@style/navButton"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             app:srcCompat="@drawable/ic_navigation_chevron_right"
             android:id="@+id/btn_next"
             style="@style/navButton"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             app:srcCompat="@drawable/ic_navigation_last_page"
             android:id="@+id/btn_last"
             style="@style/navButton"/>
 
-    <Button
-        android:id="@+id/btn_analyze"
-        android:text="@string/analyze"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_analyze"
+            android:text="@string/analyze"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
-    <Button
-        android:id="@+id/btn_mainline"
-        android:text="@string/main_line"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_mainline"
+            android:text="@string/main_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
 
