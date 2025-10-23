@@ -2,19 +2,14 @@ package io.github.karino2.paoogo.goengine
 
 import android.content.Context
 import android.content.res.AssetManager
-import android.graphics.Color
 import io.github.karino2.paoogo.goengine.amigo.AmiGoNative
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
-import io.github.karino2.paoogo.goengine.gnugo2.MovePos
 import io.github.karino2.paoogo.goengine.gnugo3.GnuGo3Native
 import io.github.karino2.paoogo.goengine.katago.KataGoNative
 import io.github.karino2.paoogo.goengine.katago.KataGoSetup
 import io.github.karino2.paoogo.goengine.liberty.LibertyNative
 import io.github.karino2.paoogo.goengine.ray.RayNative
 import org.ligi.gobandroid_hd.R
-import org.ligi.gobandroid_hd.logic.Cell
-import org.ligi.gobandroid_hd.logic.GoGame
-
 
 
 class EngineRepository(val context: Context, val assetManager: AssetManager) {
@@ -73,11 +68,21 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
             2-> Pair(amigoEngine.apply { setLevel(7)}, R.string.paomigo)
             3-> Pair(libertyEngine, R.string.paolibe)
             4-> {
-                val hybrid = HybridEngine(gnugo2Engine, libertyEngine, Policy(14))
-                Pair(hybrid, R.string.paognuli)
+                hybridEngine(1, R.string.paognulijr)
             }
-            5-> Pair(gnugo2Engine, R.string.paognujr)
+            5-> {
+                hybridEngine(2, R.string.paognuli)
+            }
+            6-> Pair(gnugo2Engine, R.string.paognujr)
             else-> Pair(gnugo3Engine, R.string.paognu)
         }
+    }
+
+    private fun hybridEngine(
+        level: Int,
+        label: Int
+    ): Pair<HybridEngine, Int> {
+        val hybrid = HybridEngine(gnugo2Engine, libertyEngine, Policy(level))
+        return Pair(hybrid, label)
     }
 }
