@@ -24,6 +24,7 @@
         android:theme="@style/base_theme">
         <activity
             android:name="io.github.karino2.paoogo.ui.GameStartActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +37,8 @@
             android:name="com.sec.android.app.multiwindow"
             android:required="false" />
 
-        <activity android:name="io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity" />
+        <activity android:name="io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity"
+            android:screenOrientation="portrait" />
         <activity android:name="io.github.karino2.paoogo.ui.ReviewActivity" />
         <activity android:name=".ui.BaseProfileActivity" />
         <activity android:name=".ui.scoring.GameScoringActivity" />
