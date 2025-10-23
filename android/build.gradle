@@ -92,7 +92,7 @@ android {
         warning 'MissingTranslation', 'ResourceType', 'InvalidPackage'
     }
     androidResources {
-        noCompress 'bin', 'txt_gz'
+        noCompress 'bin', 'txt_gz', 'bin_gz'
     }
 } // android
 
