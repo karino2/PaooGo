@@ -67,7 +67,7 @@ object GoPrefs : KotprefModel() {
     var isTransitionDone: Boolean by booleanPref(default = false)
     var isTsumegoCleanDone: Boolean by booleanPref(default = false)
 
-    private val dayNightModeString: String by stringPref(key = R.string.prefs_daynight)
+    private val dayNightModeString: String by stringPref(key = R.string.prefs_daynight, default="day")
     private var lastSeenSGFPackInt: Int by intPref()
 
     @AppCompatDelegate.NightMode
