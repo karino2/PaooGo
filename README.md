@@ -2,6 +2,8 @@
 
 Android igo app for primer, forked from [gobandroid](https://github.com/ligi/gobandroid).
 
+Download: [GooglePlay: PaooGo](https://play.google.com/store/apps/details?id=io.github.karino2.paoogo)
+
 ## Screenshot
 
 ![analyze](promo/screenshot_en/analyze.png)
