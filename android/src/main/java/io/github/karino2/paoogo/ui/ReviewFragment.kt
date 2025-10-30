@@ -10,7 +10,6 @@ import com.google.android.material.snackbar.Snackbar
 import org.greenrobot.eventbus.EventBus
 import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.R
-import org.ligi.gobandroid_hd.databinding.ReviewButtonContainerBinding
 import org.ligi.gobandroid_hd.events.GameChangedEvent
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.alerts.GameForwardAlert
@@ -21,14 +20,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
+import org.ligi.gobandroid_hd.databinding.ReviewExtraFragmentBinding
 
 class ReviewFragment : GobandroidGameAwareFragment() {
-    private var _binding: ReviewButtonContainerBinding? = null
+    private var _binding: ReviewExtraFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun createView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
-        _binding = ReviewButtonContainerBinding.inflate(inflater, container, false)
+        _binding = ReviewExtraFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onDestroyView() {
