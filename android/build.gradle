@@ -59,7 +59,7 @@ android {
     }
 
     // 16K page support require ndk r28 or later.
-    ndkVersion "28.2.13676358"
+    ndkVersion "29.0.14206865"
 
 
     testOptions {
