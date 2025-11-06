@@ -38,10 +38,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-
         <Button
             android:id="@+id/btn_mainline"
             android:text="@string/main_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_graph"
+            android:text="@string/show_graph"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -51,6 +56,14 @@
         android:id="@+id/txt_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <com.androidplot.xy.XYPlot
+        style="@style/APDefacto.Dark"
+        android:id="@+id/plot"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:lineLabels="left|bottom"
+        app:lineLabelRotationBottom="-45"/>
 
 </LinearLayout>
 

@@ -155,6 +155,21 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
 
     lateinit var actMove: GoMove
 
+    val totalMove : Int
+        get() = actMove.movePos
+
+    fun replayMoves() : List<GoMove> {
+        val replay_moves = ArrayList<GoMove>()
+        replay_moves.add(actMove)
+        var tmp_move: GoMove
+        while (true) {
+            tmp_move = replay_moves.last()
+            if (tmp_move.isFirstMove || tmp_move.parent == null) break
+            replay_moves.add(tmp_move.parent)
+        }
+        return replay_moves.reversed()
+    }
+
     lateinit var metaData: GoGameMetadata
 
     var blackPlayerName = R.string.you

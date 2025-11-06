@@ -37,6 +37,8 @@ class KataGoNative : GoEngine, GoAnalyzer {
     // F4 5506 F4 E2 G4 E7 F7 H3,D6 5546 D6 D7 C7 E6 D5 E7 E5 C8 B7 B8 B6,D7 5341 D7 D6 E6 C7 D8 B4,G5 5099 G5 D2 D7 C7 C3,C5 5092 C5 D7 F4 H5,E3 4829 E3 H5 H6 G5 G6 D7,E7 4955 E7 D7 F4 E2,E5 4706 E5 B4 H4,B5 4847 B5 E5,G4 4320 G4,F3 4450 F3,E2 4238 E2,C7 4212 C7,H5 4164 H5
     external fun analyze(msec: Int, isBlack: Boolean) : String
 
+    override external fun score(msec: Int, isBlack: Boolean) : Double
+
     override fun analyzeSituation(isBlack: Boolean, game: GoGame): List<AnalyzeInfo> {
         val res = analyze(2000, isBlack)
         println(res)

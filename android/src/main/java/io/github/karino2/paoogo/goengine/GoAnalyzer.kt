@@ -16,17 +16,8 @@ interface EngineConfig {
 
     fun sync(game: GoGame) {
         clearBoard()
-        val replay_moves = ArrayList<GoMove>()
-        replay_moves.add(game.actMove)
-        var tmp_move: GoMove
-        while (true) {
-            tmp_move = replay_moves.last()
-            if (tmp_move.isFirstMove || tmp_move.parent == null) break
-            replay_moves.add(tmp_move.parent)
-        }
-        for (step in replay_moves.indices.reversed()) {
-            tmp_move = replay_moves[step]
-
+        val replay_moves = game.replayMoves()
+        for (tmp_move in replay_moves) {
             // どうもisFirstMoveがtrueの時は何も無いらしい。
             if (tmp_move.isFirstMove)
                 continue
@@ -58,4 +49,6 @@ data class AnalyzeInfo(val cell: Cell, val rate: Double, val pv: List<Cell>) {
 interface GoAnalyzer : EngineConfig {
     fun hint(isBlack: Boolean, game: GoGame) : MovePos
     fun analyzeSituation(isBlack: Boolean, game: GoGame) : List<AnalyzeInfo>
+    fun score(msec: Int, isBlack: Boolean) : Double
+
 }

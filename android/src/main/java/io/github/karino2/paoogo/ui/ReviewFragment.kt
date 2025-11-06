@@ -15,6 +15,9 @@ import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.alerts.GameForwardAlert
 import org.ligi.gobandroid_hd.ui.fragments.GobandroidGameAwareFragment
 import androidx.lifecycle.lifecycleScope
+import com.androidplot.xy.BoundaryMode
+import com.androidplot.xy.LineAndPointFormatter
+import com.androidplot.xy.SimpleXYSeries
 import io.github.karino2.paoogo.ui.vs_engine.Message
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -111,6 +114,18 @@ class ReviewFragment : GobandroidGameAwareFragment() {
                 postGameChangeEvent()
             }
         }
+        binding.plot.setRangeBoundaries(-1.0, 1.0, BoundaryMode.FIXED);
+
+        binding.btnGraph.setOnClickListener {
+            val scores = (0..< game.totalMove).toList().map { 0.0 }
+            // val scores = (0..< game.totalMove).toList().map { 0.01*it }
+            // val scores = listOf(0.0, 0.1, 0.2, 0.3, -0.1, -0.2, -0.3)
+            val xyseries = SimpleXYSeries(scores,  SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "scores")
+            binding.plot.addSeries(xyseries, LineAndPointFormatter(context, R.xml.line_plot_formatter))
+            binding.plot.redraw()
+        }
+
+        binding.plot
     }
 
     private fun postGameChangeEvent() {
@@ -155,7 +170,6 @@ class ReviewFragment : GobandroidGameAwareFragment() {
     @Subscribe
     fun showMessage(msg: Message) {
         binding.txtMsg.text = msg.msg
-        // textView.text = msg.msg
     }
 
 

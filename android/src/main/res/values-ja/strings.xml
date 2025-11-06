@@ -221,4 +221,5 @@
     <item>Lv6 ぱおぬージュニア</item>
     <item>Lv7 ぱおぬー</item>
  </string-array>
+  <string name="show_graph">グラフ</string>
 </resources>
