@@ -1,10 +1,13 @@
 package io.github.karino2.paoogo.ui
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.graphics.PointF
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -19,10 +22,12 @@ import org.ligi.gobandroid_hd.ui.GoPrefs
 import org.ligi.gobandroid_hd.ui.alerts.GameForwardAlert
 import org.ligi.gobandroid_hd.ui.fragments.GobandroidGameAwareFragment
 import androidx.lifecycle.lifecycleScope
-import com.androidplot.xy.BoundaryMode
-import com.androidplot.xy.LineAndPointFormatter
-import com.androidplot.xy.SimpleXYSeries
-import com.androidplot.xy.XYPlot
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import io.github.karino2.paoogo.goengine.GoAnalyzer
 import io.github.karino2.paoogo.ui.vs_engine.Message
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +51,7 @@ class UpdatingScoreDialogFragment(val cancelListener: ()->Unit) : DialogFragment
     }
 }
 
-class GraphUpdater(val plot: XYPlot, val xy: SimpleXYSeries, val game: GoGame, val analyzer: GoAnalyzer) {
+class GraphUpdater(val plot: LineChart, val xy: LineDataSet, val game: GoGame, val analyzer: GoAnalyzer) {
     var cancel = false
 
     suspend fun updating() {
@@ -68,10 +73,13 @@ class GraphUpdater(val plot: XYPlot, val xy: SimpleXYSeries, val game: GoGame, v
             }
             val score = analyzer.score(300, !tmp_move.isBlack)
             println("score=${score}, pos=${pos}")
-            xy.setY(score, pos)
+            xy.getEntryForIndex(pos)?.let {entry->
+                entry.y = score.toFloat()
+            }
             pos++
             withContext(Dispatchers.Main) {
-                plot.redraw()
+                plot.notifyDataSetChanged()
+                plot.invalidate()
             }
         }
     }
@@ -91,6 +99,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         _binding = null
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onStart() {
         super.onStart()
         updateButtonStates()
@@ -166,26 +175,38 @@ class ReviewFragment : GobandroidGameAwareFragment() {
                 postGameChangeEvent()
             }
         }
-        binding.plot.setRangeBoundaries(-1.0, 1.0, BoundaryMode.FIXED);
+        val yaxis = binding.plot.axisLeft
+        yaxis.axisMinimum = -1.0F
+        yaxis.axisMaximum = 1.0F
+        yaxis.isGranularityEnabled = true
+
+        binding.plot.setOnChartValueSelectedListener(object : OnChartValueSelectedListener  {
+            override fun onValueSelected(
+                e: Entry?,
+                h: Highlight?
+            ) {
+                println("e: ${e.toString()}")
+            }
+
+            override fun onNothingSelected() {
+            }
+
+        })
 
         binding.btnGraph.setOnClickListener {
             analyzeGraph()
         }
 
-        binding.plot
     }
 
     private fun analyzeGraph() {
-        val scores = (0..<game.totalMove).toList().map { 0.0 }
-        // val scores = (0..< game.totalMove).toList().map { 0.01*it }
-        // val scores = listOf(0.0, 0.1, 0.2, 0.3, -0.1, -0.2, -0.3)
-        val xyseries = SimpleXYSeries(scores, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "scores")
-        binding.plot.addSeries(xyseries, LineAndPointFormatter(context, R.xml.line_plot_formatter))
-        binding.plot.redraw()
+        val scores = (0..<game.totalMove).toList().map { Entry(it.toFloat(), 0.0F) }
+        val dataSet = LineDataSet(scores, "Scores")
+        val lineData = LineData(dataSet)
+        binding.plot.data = lineData
+        binding.plot.invalidate()
 
-        val updater = GraphUpdater(binding.plot, xyseries, game, analyzer)
-
-
+        val updater = GraphUpdater(binding.plot, dataSet, game, analyzer)
 
         val dialog = UpdatingScoreDialogFragment({
             println("cancel")
