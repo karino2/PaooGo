@@ -363,7 +363,7 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
     }
 
     fun redo(pos: Int) {
-        actMove.getnextMove(pos)?.let {
+        actMove.getNextMove(pos)?.let {
             redo(it)
         }
     }
@@ -415,37 +415,20 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
         EventBus.getDefault().post(GameChangedEvent)
     }
 
-    fun findFollowingMove(f: (GoMove) -> Boolean): GoMove? {
-        return findMove({ it.getnextMove(0) }, f)
-    }
-
-    fun findPreviousMove(condition: (GoMove) -> Boolean): GoMove? {
-        return findMove({ it.parent }, condition)
-    }
-
-    fun findMove(nextMove: (GoMove) -> GoMove?, condition: (GoMove) -> Boolean): GoMove? {
-        var move: GoMove? = actMove
-        while (move != null) {
-            if (condition(move)) return move
-            move = nextMove(move)
-        }
-        return null
-    }
-
     fun findFirstMove(): GoMove {
-        return findPreviousMove { it.isFirstMove }!!
+        return actMove.findFirstMove()
     }
 
     fun findLastMove(): GoMove {
-        return findFollowingMove { !it.hasNextMove() }!!
+        return actMove.findLastMove()
     }
 
     fun findNextJunction(): GoMove? {
-        return findFollowingMove { !it.hasNextMove() || it.hasNextMoveVariations() }
+        return actMove.findNextJunction()
     }
 
     fun findPrevJunction(): GoMove? {
-        return findPreviousMove { it.isFirstMove || (it.hasNextMoveVariations() && !it.isContentEqual(actMove.parent) && !it.isContentEqual(actMove)) }
+        return actMove.findPrevJunction()
     }
 
     fun jump(move: GoMove?) {

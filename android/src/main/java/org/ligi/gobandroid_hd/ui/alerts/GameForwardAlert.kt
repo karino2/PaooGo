@@ -17,7 +17,6 @@
 package org.ligi.gobandroid_hd.ui.alerts
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -71,7 +70,7 @@ class GameForwardAlert(context: Context, game: GoGame) : GobandroidDialog(contex
             val i_index = i - 1
             var_btn.tag = i_index
             var_btn.setOnClickListener(var_select_listener)
-            val nextMove = game.actMove.getnextMove(i_index)
+            val nextMove = game.actMove.getNextMove(i_index)
             if (nextMove!=null && nextMove.isMarked) {
                 val goMarker = nextMove.goMarker
                 if (goMarker is TextMarker) {

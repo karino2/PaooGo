@@ -101,7 +101,7 @@ object SGFWriter {
                         res.append("(").append(moves2string(variation)).append(")")
                     }
                 } else {
-                    nextMove = actMove.getnextMove(0)
+                    nextMove = actMove.getNextMove(0)
                 }
             }
 

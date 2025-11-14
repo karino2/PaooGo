@@ -64,7 +64,7 @@ class TheSGFReader {
 
         val moveZero = game.actMove
         assertThat(moveZero.hasNextMove()).isTrue()
-        val nextMoveCell = moveZero.getnextMove(0)!!.cell!!
+        val nextMoveCell = moveZero.getNextMove(0)!!.cell!!
         assertThat(nextMoveCell).isNotNull()
         val cellToCapture = CellImpl(nextMoveCell.x -1, nextMoveCell.y)
         assertThat(game.calcBoard.getCellKind(cellToCapture)).isEqualTo(GoDefinitions.STONE_BLACK)

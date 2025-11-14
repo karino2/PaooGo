@@ -222,8 +222,40 @@ class GoMove(val parent: GoMove?) {
         return cell === this.cell || this.cell != null && this.cell == cell
     }
 
-    fun getnextMove(pos: Int): GoMove? {
+    fun getNextMove(pos: Int): GoMove? {
         return if (nextMoveVariations.size > pos) nextMoveVariations[pos] else null
+    }
+
+    fun findMove(nextMove: (GoMove) -> GoMove?, condition: (GoMove) -> Boolean): GoMove? {
+        var move: GoMove? = this
+        while (move != null) {
+            if (condition(move)) return move
+            move = nextMove(move)
+        }
+        return null
+    }
+    fun findFollowingMove(f: (GoMove) -> Boolean): GoMove? {
+        return findMove({ it.getNextMove(0) }, f)
+    }
+
+    fun findPreviousMove(condition: (GoMove) -> Boolean): GoMove? {
+        return findMove({ it.parent }, condition)
+    }
+
+    fun findFirstMove(): GoMove {
+        return findPreviousMove { it.isFirstMove }!!
+    }
+
+    fun findLastMove(): GoMove {
+        return findFollowingMove { !it.hasNextMove() }!!
+    }
+
+    fun findNextJunction(): GoMove? {
+        return findFollowingMove { !it.hasNextMove() || it.hasNextMoveVariations() }
+    }
+
+    fun findPrevJunction(): GoMove? {
+        return findPreviousMove { it.isFirstMove || (it.hasNextMoveVariations() && !it.isContentEqual(parent) && !it.isContentEqual(this)) }
     }
 
     override fun toString(): String {
