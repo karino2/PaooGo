@@ -258,6 +258,10 @@ class GoMove(val parent: GoMove?) {
         return findPreviousMove { it.isFirstMove || (it.hasNextMoveVariations() && !it.isContentEqual(parent) && !it.isContentEqual(this)) }
     }
 
+    fun findFollowingAt(pos: Int): GoMove? {
+        return findFollowingMove { it.movePos == pos }
+    }
+
     override fun toString(): String {
         var s = "{ cell="
         if (cell != null) {

@@ -224,13 +224,8 @@ class ReviewFragment : GobandroidGameAwareFragment() {
     private fun gotoPos(pos: Int) {
         revertToMainLine()
         game.clearAnalyzerInfo()
-        val first = game.findFirstMove()
-
-
-
-        gotoFirst()
-        for(i in 0..<pos) {
-            game.redo(0)
+        game.findFirstMove().findFollowingAt(pos)?.let {
+            game.jump(it)
         }
     }
 
