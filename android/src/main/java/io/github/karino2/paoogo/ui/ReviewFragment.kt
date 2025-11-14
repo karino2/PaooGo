@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
-import android.graphics.PointF
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -36,7 +34,6 @@ import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.databinding.ReviewExtraFragmentBinding
 import org.ligi.gobandroid_hd.logic.GoGame
-import timber.log.Timber
 
 class UpdatingScoreDialogFragment(val cancelListener: ()->Unit) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -126,23 +123,19 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             } else {
                 game.redo(0)
             }
+            syncGraphHighlight()
         }
 
         binding.btnPrev.setOnClickListener {
             game.clearAnalyzerInfo()
             if (game.canUndo()) {
                 game.undo()
+                syncGraphHighlight()
             }
         }
 
         binding.btnFirst.setOnClickListener {
             gotoFirst()
-        }
-
-        binding.btnFirst.setOnLongClickListener {
-            game.clearAnalyzerInfo()
-            game.jump(game.findFirstMove())
-            true
         }
 
         binding.btnLast.setOnClickListener {
@@ -154,6 +147,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             } else {
                 game.jump(nextJunction)
             }
+            syncGraphHighlight()
         }
 
         binding.btnLast.setOnLongClickListener {
@@ -238,6 +232,17 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             showJunctionInfoSnack(R.string.found_junction_snack_for_first)
             game.jump(nextJunction.nextMoveVariations[0])
         }
+        syncGraphHighlight()
+    }
+
+    private fun syncGraphHighlight() {
+        if(!graphAvailable) return
+        val dataSet = binding.plot.data?.getDataSetByIndex(0) ?: return
+        val targetPos = game.actMove.movePos
+        if (dataSet.entryCount <=  targetPos)
+            return
+        val x = dataSet.getEntryForIndex(targetPos)?.x ?: return
+        binding.plot.highlightValue(x, 0)
     }
 
     private var graphAvailable = false
