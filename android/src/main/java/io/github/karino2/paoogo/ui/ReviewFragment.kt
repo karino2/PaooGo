@@ -56,8 +56,17 @@ class GraphUpdater(val plot: LineChart, val xy: LineDataSet, val game: GoGame, v
 
     suspend fun updating() {
         analyzer.clearBoard()
+        if(cancel)
+            return
+
+        val iniScore = analyzer.score(300, true)
+        xy.getEntryForIndex(0)?.let {entry->
+            entry.y = iniScore.toFloat()
+        }
+        updatePlot()
+
         val replay_moves = game.replayMoves()
-        var pos = 0
+        var pos = 1
         for (tmp_move in replay_moves) {
             // どうもisFirstMoveがtrueの時は何も無いらしい。
             if (tmp_move.isFirstMove)
@@ -77,10 +86,14 @@ class GraphUpdater(val plot: LineChart, val xy: LineDataSet, val game: GoGame, v
                 entry.y = score.toFloat()
             }
             pos++
-            withContext(Dispatchers.Main) {
-                plot.notifyDataSetChanged()
-                plot.invalidate()
-            }
+            updatePlot()
+        }
+    }
+
+    private suspend fun updatePlot() {
+        withContext(Dispatchers.Main) {
+            plot.notifyDataSetChanged()
+            plot.invalidate()
         }
     }
 }
@@ -123,14 +136,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnFirst.setOnClickListener {
-            game.clearAnalyzerInfo()
-            val nextJunction = game.findPrevJunction()
-            if (nextJunction!!.isFirstMove) {
-                game.jump(nextJunction)
-            } else {
-                showJunctionInfoSnack(R.string.found_junction_snack_for_first)
-                game.jump(nextJunction.nextMoveVariations[0])
-            }
+            gotoFirst()
         }
 
         binding.btnFirst.setOnLongClickListener {
@@ -157,8 +163,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnMainline.setOnClickListener {
-            game.clearAnalyzerInfo()
-            game.revertToMainLine()
+            revertToMainLine()
             postGameChangeEvent()
         }
 
@@ -175,23 +180,8 @@ class ReviewFragment : GobandroidGameAwareFragment() {
                 postGameChangeEvent()
             }
         }
-        val yaxis = binding.plot.axisLeft
-        yaxis.axisMinimum = -1.0F
-        yaxis.axisMaximum = 1.0F
-        yaxis.isGranularityEnabled = true
 
-        binding.plot.setOnChartValueSelectedListener(object : OnChartValueSelectedListener  {
-            override fun onValueSelected(
-                e: Entry?,
-                h: Highlight?
-            ) {
-                println("e: ${e.toString()}")
-            }
-
-            override fun onNothingSelected() {
-            }
-
-        })
+        setupPlot()
 
         binding.btnGraph.setOnClickListener {
             analyzeGraph()
@@ -199,9 +189,70 @@ class ReviewFragment : GobandroidGameAwareFragment() {
 
     }
 
+    private fun setupPlot() {
+        binding.plot.apply {
+            isHighlightPerDragEnabled = false
+            isHighlightPerTapEnabled = true
+
+            val yaxis = axisLeft
+            yaxis.axisMinimum = -1.0F
+            yaxis.axisMaximum = 1.0F
+            yaxis.isGranularityEnabled = true
+
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(
+                    e: Entry,
+                    h: Highlight?
+                ) {
+                    gotoPos(e.x.toInt())
+                }
+
+                override fun onNothingSelected() {
+                }
+
+            })
+        }
+    }
+
+    private fun revertToMainLine() {
+        game.clearAnalyzerInfo()
+        game.revertToMainLine()
+    }
+
+    // initial state is pos 0.
+    // increment for each move.
+    private fun gotoPos(pos: Int) {
+        revertToMainLine()
+        game.clearAnalyzerInfo()
+        val first = game.findFirstMove()
+
+
+
+        gotoFirst()
+        for(i in 0..<pos) {
+            game.redo(0)
+        }
+    }
+
+    private fun gotoFirst() {
+        game.clearAnalyzerInfo()
+        val nextJunction = game.findPrevJunction()
+        if (nextJunction!!.isFirstMove) {
+            game.jump(nextJunction)
+        } else {
+            showJunctionInfoSnack(R.string.found_junction_snack_for_first)
+            game.jump(nextJunction.nextMoveVariations[0])
+        }
+    }
+
+    private var graphAvaialble = false
+
     private fun analyzeGraph() {
-        val scores = (0..<game.totalMove).toList().map { Entry(it.toFloat(), 0.0F) }
+        graphAvaialble = true
+        val scores = (0..game.totalMove).toList().map { Entry(it.toFloat(), 0.0F) }
         val dataSet = LineDataSet(scores, "Scores")
+        dataSet.setDrawValues(false)
+        dataSet.highlightLineWidth = 2f
         val lineData = LineData(dataSet)
         binding.plot.data = lineData
         binding.plot.invalidate()
