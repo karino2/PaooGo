@@ -37,7 +37,7 @@ import org.ligi.gobandroid_hd.logic.GoGame
 
 class UpdatingScoreDialogFragment(val cancelListener: ()->Unit) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(context).setTitle("Analyzing")
+        return AlertDialog.Builder(requireContext(), R.style.dialog_theme)
             .setMessage("Analyzing...")
             .create()
     }
