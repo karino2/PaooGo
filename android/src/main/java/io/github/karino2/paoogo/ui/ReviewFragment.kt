@@ -240,10 +240,10 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
     }
 
-    private var graphAvaialble = false
+    private var graphAvailable = false
 
     private fun analyzeGraph() {
-        graphAvaialble = true
+        graphAvailable = true
         val scores = (0..game.totalMove).toList().map { Entry(it.toFloat(), 0.0F) }
         val dataSet = LineDataSet(scores, "Scores")
         dataSet.setDrawValues(false)
