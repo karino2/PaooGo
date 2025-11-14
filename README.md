@@ -8,6 +8,8 @@ Download: [GooglePlay: PaooGo](https://play.google.com/store/apps/details?id=io.
 
 ![analyze](promo/screenshot_en/analyze.png)
 
+![graph](promo/screenshot_en/building_graph.png)
+
 ![play](promo/screenshot_en/play.png)
 
 ![start](promo/screenshot_en/start.png)

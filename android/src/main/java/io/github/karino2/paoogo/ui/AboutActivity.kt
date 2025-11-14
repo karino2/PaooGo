@@ -53,6 +53,7 @@ class AboutActivity : AppCompatActivity() {
         LinkWithDescription("https://jchardet.sourceforge.net/index.html", "jchardet", "jchardet is a java port of the source from mozilla's automatic charset detection algorithm"),
         LinkWithDescription("https://github.com/Zenigata", "French Translation #2", "Zenigata"),
         LinkWithDescription("https://github.com/p3l", "Swedish Translation", "Peter Lundqvist"),
+        LinkWithDescription("https://github.com/PhilJay/MPAndroidChart/", "MPAndroidChart", "PhilJay"),
         LinkWithDescription("https://github.com/gthazmatt", "Code contributions", "gthazmatt")
     )
 }
