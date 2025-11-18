@@ -18,6 +18,7 @@ class ReviewActivity: GoActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        game.clearHint()
     }
 
     fun formatPV(cells: List<Cell>) : String {
