@@ -35,7 +35,7 @@ class FusekiEngine(val fusekiSetOrg: FusekiSet, val level: FusekiLevel, val engi
                     if(pos < 4)
                         return 0.95
                     // 0.90, 0.85, 0.80, 0.75 for each white move
-                    return max(0.0, 0.95 + 0.05 - (pos/2)*0.5)
+                    return max(0.0, 0.95 + 0.05 - (pos/2)*0.05)
                 }
             }
         }
@@ -45,6 +45,7 @@ class FusekiEngine(val fusekiSetOrg: FusekiSet, val level: FusekiLevel, val engi
         {
             println("rate: $fusekiRate")
             if(Random.nextDouble() < fusekiRate) {
+                println("fuseki hit.")
                 pos += 1
                 val next = fusekiSet.peekMove()
                 fusekiSet.moveTo(next)
