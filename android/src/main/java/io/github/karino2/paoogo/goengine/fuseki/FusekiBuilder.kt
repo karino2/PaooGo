@@ -11,7 +11,14 @@ import org.ligi.gobandroid_hd.logic.sgf.SGFReader
 class FusekiBuilder {
     companion object {
         const val FURIKO = "(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.52.2]KM[6.5]SZ[9]DT[2025-11-18];B[ee];W[dg];B[cf];W[fg];B[fc])"
-        val fusekiList = listOf(FURIKO)
+        const val MAMEMAKI = "(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.52.2]KM[6.5]SZ[9]DT[2025-11-19];B[fd];W[df];B[ef];W[eg];B[fg];W[dg];B[dc])"
+        const val BLACK_BOOMERANG = "(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.52.2]KM[6.5]SZ[9]DT[2025-11-19];B[fd];W[df];B[ef];W[eg];B[fg];W[ee];B[ff];W[de];B[fe];W[dc])"
+        const val KAZAGURUMA = "(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.52.2]KM[6.5]SZ[9]DT[2025-11-19];B[ee];W[eg];B[dg];W[df];B[ef];W[cg];B[dh];W[fg];B[gf];W[cf];B[gg])"
+        const val LIFTING1 = "(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.52.2]KM[6.5]SZ[9]DT[2025-11-19];B[ee];W[ec];B[fg];W[cd];B[dd];W[dc];B[ce];W[bd];B[fd];W[fh])"
+        const val LIFTING2 = "(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.52.2]KM[6.5]SZ[9]DT[2025-11-19];B[ee];W[ec];B[fg];W[cf];B[cd];W[gc])"
+        const val SLIDER = "(;GM[1]FF[4]CA[UTF-8]AP[Sabaki:0.52.2]KM[6.5]SZ[9]DT[2025-11-19];B[ed];W[ef];B[ce];W[cg];B[gg];W[fg];B[fe];W[eb])"
+
+        val fusekiList = listOf(FURIKO, MAMEMAKI, BLACK_BOOMERANG, KAZAGURUMA, LIFTING1, LIFTING2, SLIDER)
 
         fun buildFusekiSet() = FusekiBuilder().buildFusekiSet(fusekiList)
     }
