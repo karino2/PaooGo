@@ -3,6 +3,7 @@ package io.github.karino2.paoogo.goengine
 import android.content.Context
 import android.content.res.AssetManager
 import io.github.karino2.paoogo.goengine.amigo.AmiGoNative
+import io.github.karino2.paoogo.goengine.fuseki.FusekiBuilder
 import io.github.karino2.paoogo.goengine.gnugo2.GnuGo2Native
 import io.github.karino2.paoogo.goengine.gnugo3.GnuGo3Native
 import io.github.karino2.paoogo.goengine.katago.KataGoNative
@@ -13,6 +14,8 @@ import org.ligi.gobandroid_hd.R
 
 
 class EngineRepository(val context: Context, val assetManager: AssetManager) {
+    val fusekiSet by lazy { FusekiBuilder.buildFusekiSet() }
+
     val gnugo2Engine by lazy {
         GnuGo2Native().apply {
             initNative()
@@ -73,8 +76,8 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
             5-> {
                 hybridEngine(2, R.string.paognuli)
             }
-            6-> Pair(gnugo2Engine, R.string.paognujr)
-            else-> Pair(gnugo3Engine, R.string.paognu)
+            6-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, gnugo2Engine), R.string.paognujr)
+            else-> Pair(FusekiEngine(fusekiSet, FusekiLevel.ALMOST, gnugo3Engine), R.string.paognu)
         }
     }
 

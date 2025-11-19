@@ -10,6 +10,9 @@ interface GoEngine : EngineConfig {
             }
             return MovePos(move and 0xff, move shr 16)
         }
+
+        fun xyToIntMove(x: Int, y:Int) =
+            (y shl 16) or x
     }
     fun genMoveInternal(isBlack: Boolean) : Int
     fun genMove(isBlack: Boolean) : MovePos {
