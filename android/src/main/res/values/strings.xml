@@ -305,7 +305,24 @@
     <string name="paognulijr">Paognuli Jr.</string>
     <string name="paognuli">Paognuli</string>
     <string name="paognujr">Paognu Jr.</string>
+    <string name="paofusejr">Paofuse Jr.</string>
+    <string name="paofuse">Paofuse</string>
     <string name="paognu">Paognu</string>
+    <string name="paognupapa">Paognu Papa</string>
+    <string name="paognugrandpa">Paognu Grandpa</string>
+    <string-array name="level_9sz_array">
+        <item>Lv1 Paomigo Jr.</item>
+        <item>Lv2 Paomigo</item>
+        <item>Lv3 Paolibe</item>
+        <item>Lv4 Paognuli Jr.</item>
+        <item>Lv5 Paognuli</item>
+        <item>Lv6 Paognu Jr.</item>
+        <item>Lv7 Paofuse Jr.</item>
+        <item>Lv8 Paofuse</item>
+        <item>Lv9 Paognu</item>
+        <item>Lv10 Paognu Papa</item>
+        <item>Lv11 Paognu Grandpa</item>
+    </string-array>
     <string-array name="level_array">
         <item>Lv1 Paomigo Jr.</item>
         <item>Lv2 Paomigo</item>

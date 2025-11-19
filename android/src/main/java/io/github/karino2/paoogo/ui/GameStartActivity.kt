@@ -2,6 +2,7 @@ package io.github.karino2.paoogo.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.os.IResultReceiver
 import android.view.Menu
 import android.view.MenuItem
 import android.view.accessibility.AccessibilityEvent.INVALID_POSITION
@@ -25,7 +26,7 @@ import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity
-import io.github.karino2.paoogo.ui.AboutActivity
+import org.ligi.gobandroid_hd.ui.GoPrefs.engineLevel
 import kotlin.getValue
 
 class GameStartActivity : AppCompatActivity() {
@@ -56,19 +57,45 @@ class GameStartActivity : AppCompatActivity() {
 
 
 
-        val levelAdapter = ArrayAdapter.createFromResource(this, R.array.level_array, android.R.layout.simple_spinner_item)
-        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        levelSpinner.adapter = levelAdapter
-
         with(GoPrefs) {
-            engineLevel = engineLevel.coerceIn(1, levelAdapter.count)
-            if(lastBoardSize == 13) findViewById<RadioButton>(R.id.board_size_13).isChecked = true
-            if(engineLevel != 1) levelSpinner.setSelection(engineLevel - 1)
+            if(lastBoardSize == 13) {
+                findViewById<RadioButton>(R.id.board_size_13).isChecked = true
+                setupNormalLevelAdapter()
+            } else {
+                setup9RoLevelAdapter()
+            }
+        }
+        findViewById<RadioButton>(R.id.board_size_13).setOnCheckedChangeListener { _, isChecked->
+            if(isChecked)
+                setupNormalLevelAdapter()
+        }
+        findViewById<RadioButton>(R.id.board_size_9).setOnCheckedChangeListener { _, isChecked->
+            if(isChecked)
+                setup9RoLevelAdapter()
         }
 
         findViewById<Button>(R.id.start_button).setOnClickListener {
             val boardSize = if(findViewById<RadioGroup>(R.id.board_size_group).checkedRadioButtonId == R.id.board_size_9) 9 else 13
-            val comLevel = levelSpinner.selectedItemPosition.let { if(it == INVALID_POSITION) 1 else it+1 }
+            val comLevel = levelSpinner.selectedItemPosition.let {
+                if(it == INVALID_POSITION){
+                    1
+                }
+                else if(boardSize == 9) {
+                    it + 1
+                }
+                else
+                {
+                    when(it+1)
+                    {
+                        /*
+                          for non 9ro, fuseki engine is not supported.
+                          So skip fuseki engine level by hand.
+                         */
+                        7 -> 9
+                        else -> it+1
+                    }
+               }
+            }
             GoPrefs.bulk {
                 lastBoardSize = boardSize
                 engineLevel = comLevel
@@ -76,6 +103,33 @@ class GameStartActivity : AppCompatActivity() {
             clearGame(boardSize)
             Intent(this@GameStartActivity, PlayAgainstEngineActivity::class.java).let { startActivity(it) }
         }
+    }
+
+    private fun setupNormalLevelAdapter() {
+        val levelAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.level_array,
+            android.R.layout.simple_spinner_item
+        )
+        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        levelSpinner.adapter = levelAdapter
+        afterChangeAdapter(levelAdapter.count)
+    }
+
+    private fun afterChangeAdapter(maxLevel: Int) {
+        engineLevel = engineLevel.coerceIn(1, maxLevel)
+        if (engineLevel != 1) levelSpinner.setSelection(engineLevel - 1)
+    }
+
+    private fun setup9RoLevelAdapter() {
+        val levelAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.level_9sz_array,
+            android.R.layout.simple_spinner_item
+        )
+        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        levelSpinner.adapter = levelAdapter
+        afterChangeAdapter(levelAdapter.count)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?) =  super.onCreateOptionsMenu(menu.apply {

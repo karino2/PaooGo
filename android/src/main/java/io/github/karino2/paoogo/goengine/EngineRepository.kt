@@ -64,7 +64,6 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
 
     fun getAnalyzer() : GoAnalyzer { return katagoEngine }
 
-
     fun getEngine(level: Int) : Pair<GoEngine, Int> {
         return when(level) {
             1-> Pair(amigoEngine.apply { setLevel(0) }, R.string.paomigojr)
@@ -76,8 +75,12 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
             5-> {
                 hybridEngine(2, R.string.paognuli)
             }
-            6-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, gnugo2Engine), R.string.paognujr)
-            else-> Pair(FusekiEngine(fusekiSet, FusekiLevel.ALMOST, gnugo3Engine), R.string.paognu)
+            6-> Pair(gnugo2Engine, R.string.paognujr)
+            7-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, gnugo2Engine), R.string.paofusejr)
+            8-> Pair(FusekiEngine(fusekiSet, FusekiLevel.ALMOST, gnugo2Engine), R.string.paofuse)
+            9-> Pair(gnugo3Engine, R.string.paognu)
+            10-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, gnugo3Engine), R.string.paognupapa)
+            else-> Pair(FusekiEngine(fusekiSet, FusekiLevel.ALMOST, gnugo3Engine), R.string.paognugrandpa)
         }
     }
 

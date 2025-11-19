@@ -212,6 +212,23 @@
   <string name="paognuli">ぱおぬり</string>
   <string name="paognujr">ぱおぬージュニア</string>
   <string name="paognu">ぱおぬー</string>
+    <string name="paofusejr">ぱおふせジュニア</string>
+    <string name="paofuse">ぱおふせ</string>
+    <string name="paognupapa">ぱおぬーパパ</string>
+    <string name="paognugrandpa">ぱおぬー爺</string>
+    <string-array name="level_9sz_array">
+        <item>Lv1 ぱおみーごジュニア</item>
+        <item>Lv2 ぱおみーご</item>
+        <item>Lv3 ぱおりば</item>
+        <item>Lv4 ぱおぬりジュニア</item>
+        <item>Lv5 ぱおぬり</item>
+        <item>Lv6 ぱおぬージュニア</item>
+        <item>Lv7 ぱおふせジュニア</item>
+        <item>Lv8 ぱおふせ</item>
+        <item>Lv9 ぱおぬー</item>
+        <item>Lv10 ぱおぬーパパ</item>
+        <item>Lv11 ぱおぬー爺</item>
+    </string-array>
   <string-array name="level_array">
     <item>Lv1 ぱおみーごジュニア</item>
     <item>Lv2 ぱおみーご</item>
@@ -219,7 +236,7 @@
     <item>Lv4 ぱおぬりジュニア</item>
     <item>Lv5 ぱおぬり</item>
     <item>Lv6 ぱおぬージュニア</item>
-    <item>Lv7 ぱおぬー</item>
+    <item>Lv9 ぱおぬー</item>
  </string-array>
   <string name="show_graph">グラフ</string>
 </resources>
