@@ -24,16 +24,16 @@ class FusekiEngine(val fusekiSetOrg: FusekiSet, val level: FusekiLevel, val engi
         get() {
             when(level) {
                 FusekiLevel.SELDOM -> {
-                    // first 2, 90%
+                    // first 2, 100%
                     if(pos < 3)
-                        return 0.9
+                        return 1.0
                     // after that, 50%
                     return 0.5
                 }
                 FusekiLevel.ALMOST -> {
-                    // first 4, 95%
+                    // first 4, 100%
                     if(pos < 4)
-                        return 0.95
+                        return 1.0
                     // 0.90, 0.85, 0.80, 0.75 for each white move
                     return max(0.0, 0.95 + 0.05 - (pos/2)*0.05)
                 }
