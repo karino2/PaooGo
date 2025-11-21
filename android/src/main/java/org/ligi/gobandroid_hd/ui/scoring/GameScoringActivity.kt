@@ -1,12 +1,16 @@
 package org.ligi.gobandroid_hd.ui.scoring
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import io.github.karino2.paoogo.ui.GameStartActivity
 import io.github.karino2.paoogo.ui.ReviewActivity
 import org.ligi.gobandroid_hd.InteractionScope
@@ -20,6 +24,8 @@ import org.ligi.gobandroid_hd.logic.StatelessBoardCell
 import org.ligi.gobandroid_hd.logic.cell_gatherer.LooseConnectedCellGatherer
 import org.ligi.gobandroid_hd.logic.cell_gatherer.MustBeConnectedCellGatherer
 import org.ligi.gobandroid_hd.ui.GoActivity
+import org.ligi.gobandroid_hd.ui.GoPrefs
+import org.ligi.gobandroid_hd.ui.recording.SaveSGFDialog
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -27,7 +33,6 @@ import kotlin.reflect.KClass
  * Activity to score a Game
  */
 class GameScoringActivity : GoActivity() {
-
     override val gameExtraFragment: GameScoringExtrasFragment by lazy {
         GameScoringExtrasFragment()
     }
@@ -103,6 +108,30 @@ class GameScoringActivity : GoActivity() {
         return GoGame.MoveStatus.VALID
     }
 
+    private val getStoreDirUrl = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+        // if cancel, null coming.
+        uri?.let {
+            contentResolver.takePersistableUriPermission(it,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            GoPrefs.storeDirUri = it.toString()
+            saveSGFDialogUnder(it)
+        }
+    }
+
+    fun saveSGFDialogUnder(dirUri: Uri) {
+        SaveSGFDialog(this, dirUri, {
+            getStoreDirUrl.launch(null)
+        }).show()
+    }
+
+    fun saveSGF() {
+        if(GoPrefs.storeDirUri.isEmpty()) {
+            getStoreDirUrl.launch(null)
+        } else {
+            saveSGFDialogUnder(Uri.parse(GoPrefs.storeDirUri))
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_back_to_title -> {
@@ -113,6 +142,10 @@ class GameScoringActivity : GoActivity() {
             R.id.menu_goto_review -> {
                 switchToReview()
 
+            }
+            R.id.menu_write_sgf -> {
+                saveSGF()
+                return true
             }
         }
         return super.onOptionsItemSelected(item)

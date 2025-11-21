@@ -105,8 +105,8 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
 
     fun updatePlayerName()
     {
-        binding.whitePlayerNameTv!!.text = getString(game.whitePlayerName)
-        binding.blackPlayerNameTv!!.text = getString(game.blackPlayerName)
+        binding.whitePlayerNameTv!!.text = game.metaData.whiteName
+        binding.blackPlayerNameTv!!.text = game.metaData.blackName
     }
 
     @SuppressLint("MissingInflatedId")
@@ -204,8 +204,6 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         // NYI
         menu.findItem(R.id.menu_game_info)?.let{ it.isVisible = false }
-        menu.findItem(R.id.menu_game_share)?.let{ it.isVisible = false }
-        menu.findItem(R.id.menu_write_sgf)?.let{ it.isVisible = false }
 
         return super.onPrepareOptionsMenu(menu)
     }

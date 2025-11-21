@@ -52,7 +52,7 @@ class Waiter(private val minMillis: Long) {
     Similar to PlayAgainstGnuGoActivity, but use local engine instead.
  */
 class PlayAgainstEngineActivity : GoActivity() {
-    private val engineGoGame by lazy { EngineGoGame(false, true, game, getString(R.string.gnugo2)) }
+    private val engineGoGame by lazy { EngineGoGame(false, true, game) }
     private lateinit var engine : GoEngine
 
     private val engineRepository : EngineRepository
@@ -125,7 +125,7 @@ class PlayAgainstEngineActivity : GoActivity() {
     private fun setupEngine() {
         val epair = engineRepository.getEngine(GoPrefs.engineLevel)
         engine = epair.first
-        game.whitePlayerName = epair.second
+        game.setPlayerName( getString(R.string.you),getString(epair.second))
         engine.setKomi(game.komi)
         engine.setBoardSize(game.boardSize)
         engine.clearBoard()

@@ -172,9 +172,6 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
 
     lateinit var metaData: GoGameMetadata
 
-    var blackPlayerName = R.string.you
-    var whitePlayerName = R.string.you
-
     private lateinit var all_handicap_positions: Array<BooleanArray>
 
     init {
@@ -530,6 +527,11 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
 
     fun setMetadata(metadata: GoGameMetadata) {
         this.metaData = metadata
+    }
+
+    fun setPlayerName(blackName: String, whiteName: String) {
+        metaData.blackName = blackName
+        metaData.whiteName = whiteName
     }
 
     val size: Int

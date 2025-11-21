@@ -1,14 +1,11 @@
 package io.github.karino2.paoogo.ui.vs_engine
 
-import org.ligi.gobandroid_hd.App
 import org.ligi.gobandroid_hd.logic.GoGame
-import org.ligi.gobandroid_hd.ui.GoPrefs
 
 class EngineGoGame internal constructor(
     val playingBlack: Boolean,
     val playingWhite: Boolean,
-    private val game: GoGame,
-    private val engineName: String
+    private val game: GoGame
 ) {
 
     var aiIsThinking = false
@@ -19,25 +16,5 @@ class EngineGoGame internal constructor(
 
     fun engineNowBlack(): Boolean {
         return game.isBlackToMove && playingBlack
-    }
-
-    fun setMetaDataForGame(app: App) {
-        val metaData = game.metaData
-        if (playingBlack) {
-            metaData.blackName = engineName
-            metaData.blackRank = ""
-        } else {
-            metaData.blackName = GoPrefs.username
-            metaData.blackRank = GoPrefs.rank
-        }
-
-        if (playingWhite) {
-            metaData.whiteName = engineName
-            metaData.whiteRank = ""
-        } else {
-            metaData.whiteName = GoPrefs.username
-            metaData.whiteRank = GoPrefs.rank
-        }
-
     }
 }

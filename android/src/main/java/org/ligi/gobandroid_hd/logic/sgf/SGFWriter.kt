@@ -29,8 +29,10 @@ object SGFWriter {
         return cmd + "[" + escapeSGF(param) + "]"
     }
 
-    fun game2sgf(game: GoGame): String {
-        val res = StringBuilder("(;FF[4]GM[1]AP[gobandroid:0]") // header
+    fun game2sgf(game: GoGame, appName: String): String {
+        val res = StringBuilder("(;FF[4]GM[1]AP[")
+        res.append(appName)
+        res.append(":0]") // header
         res.append(getSGFSnippet("SZ", "" + game.boardSize)) // board_size;
         res.append(getSGFSnippet("GN", escapeSGF(game.metaData.name)))
         res.append(getSGFSnippet("DT", escapeSGF(game.metaData.date)))
@@ -114,38 +116,4 @@ object SGFWriter {
         return "[" + ('a' + cell.x) + ('a' + cell.y) + "]"
     }
 
-    fun saveSGF(game: GoGame, file: File): Boolean {
-
-
-        if (file.isDirectory) {
-            throw IllegalArgumentException("cannot write - fname is a directory")
-        }
-
-        val parentFile = file.parentFile
-                ?: // not really sure when this can be the
-                // case ( perhaps only / ) - but the doc says it can be null and I would get NPE then
-                throw IllegalArgumentException("bad filename " + file.absolutePath)
-
-        if (!parentFile.isDirectory) {
-            // if  the  path is not there yet
-            parentFile.mkdirs()
-        }
-
-        try {
-            file.createNewFile()
-            val sgfWriter = FileWriter(file)
-            val out = BufferedWriter(sgfWriter)
-
-            out.write(game2sgf(game))
-            out.close()
-            sgfWriter.close()
-
-        } catch (e: IOException) {
-            Timber.i(e)
-            return false
-        }
-
-        game.metaData.fileName = file.absolutePath
-        return true
-    }
 }

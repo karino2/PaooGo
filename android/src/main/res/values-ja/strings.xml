@@ -239,4 +239,6 @@
     <item>Lv9 ぱおぬー</item>
  </string-array>
   <string name="show_graph">グラフ</string>
+    <string name="remove_black_name">黒の名前を削除</string>
+    <string name="save_label">保存</string>
 </resources>

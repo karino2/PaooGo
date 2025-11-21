@@ -70,6 +70,8 @@ object GoPrefs : KotprefModel() {
     private val dayNightModeString: String by stringPref(key = R.string.prefs_daynight, default="day")
     private var lastSeenSGFPackInt: Int by intPref()
 
+    var storeDirUri: String by stringPref()
+
     @AppCompatDelegate.NightMode
     fun getThemeInt(): Int {
         return when (dayNightModeString) {
