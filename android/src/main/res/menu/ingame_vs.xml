@@ -10,14 +10,14 @@ xmlns:yourapp="http://schemas.android.com/apk/res-auto">
     android:title="@string/game_pass"
     android:id="@+id/menu_game_pass"
     yourapp:showAsAction="ifRoom" />
-    <item
-        android:title="@string/game_hint"
-        android:id="@+id/menu_game_hint"
-        yourapp:showAsAction="ifRoom" />
-    <item
-        android:title="@string/review"
-        android:id="@+id/menu_goto_review"
-        yourapp:showAsAction="withText"/>
+<item
+    android:title="@string/game_hint"
+    android:id="@+id/menu_game_hint"
+    yourapp:showAsAction="ifRoom" />
+<item
+    android:title="@string/review"
+    android:id="@+id/menu_goto_review"
+    yourapp:showAsAction="withText"/>
 <item
     android:title="@string/back_to_title"
     android:id="@+id/menu_back_to_title"
