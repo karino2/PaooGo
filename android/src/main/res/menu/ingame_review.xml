@@ -6,6 +6,17 @@
         android:id="@+id/menu_resume_from_here"
         yourapp:showAsAction="withText"/>
     <item
+        android:title="@string/save_as_sgf"
+        android:id="@+id/menu_write_sgf"
+        android:icon="@drawable/ic_content_save"
+        yourapp:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:title="@string/share"
+        android:id="@+id/menu_game_share"
+        yourapp:showAsAction="withText"/>
+    
+    <item
         android:title="@string/back_to_title"
         android:id="@+id/menu_back_to_title"
         yourapp:showAsAction="withText"/>

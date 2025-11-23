@@ -108,30 +108,6 @@ class GameScoringActivity : GoActivity() {
         return GoGame.MoveStatus.VALID
     }
 
-    private val getStoreDirUrl = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
-        // if cancel, null coming.
-        uri?.let {
-            contentResolver.takePersistableUriPermission(it,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            GoPrefs.storeDirUri = it.toString()
-            saveSGFDialogUnder(it)
-        }
-    }
-
-    fun saveSGFDialogUnder(dirUri: Uri) {
-        SaveSGFDialog(this, dirUri, {
-            getStoreDirUrl.launch(null)
-        }).show()
-    }
-
-    fun saveSGF() {
-        if(GoPrefs.storeDirUri.isEmpty()) {
-            getStoreDirUrl.launch(null)
-        } else {
-            saveSGFDialogUnder(Uri.parse(GoPrefs.storeDirUri))
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_back_to_title -> {
@@ -142,10 +118,6 @@ class GameScoringActivity : GoActivity() {
             R.id.menu_goto_review -> {
                 switchToReview()
 
-            }
-            R.id.menu_write_sgf -> {
-                saveSGF()
-                return true
             }
         }
         return super.onOptionsItemSelected(item)

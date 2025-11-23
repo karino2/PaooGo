@@ -25,6 +25,7 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.print.PrintManager
@@ -37,6 +38,7 @@ import android.view.View.OnKeyListener
 import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -216,6 +218,30 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         return true
     }
 
+    private val getStoreDirUrl = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+        // if cancel, null coming.
+        uri?.let {
+            contentResolver.takePersistableUriPermission(it,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            GoPrefs.storeDirUri = it.toString()
+            saveSGFDialogUnder(it)
+        }
+    }
+
+    fun saveSGFDialogUnder(dirUri: Uri) {
+        SaveSGFDialog(this, dirUri, {
+            getStoreDirUrl.launch(null)
+        }).show()
+    }
+
+    fun saveSGF() {
+        if(GoPrefs.storeDirUri.isEmpty()) {
+            getStoreDirUrl.launch(null)
+        } else {
+            saveSGFDialogUnder(Uri.parse(GoPrefs.storeDirUri))
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         bus.post(OptionsItemClickedEvent(item.itemId))
         when (item.itemId) {
@@ -230,31 +256,14 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
             R.id.menu_game_pass -> {
                 return doPass()
             }
-
-            /*
-            NYI
             R.id.menu_write_sgf -> {
-                prepareSaveWithPermissionCheck()
+                saveSGF()
                 return true
             }
-
-            R.id.menu_game_share -> {
-                //new ShareWithMultipleOptionsDialog(this).show();
-                ShareSGFDialog(this).show()
-                return true
-            }
-             */
         }
 
         return super.onOptionsItemSelected(item)
     }
-
-    /*
-    NYI
-    fun prepareSave() {
-        SaveSGFDialog(this).show()
-    }
-     */
 
     fun switchToCounting() {
         interactionScope.mode = InteractionScope.Mode.COUNT
