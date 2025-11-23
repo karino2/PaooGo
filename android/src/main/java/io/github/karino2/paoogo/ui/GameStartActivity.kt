@@ -26,7 +26,9 @@ import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity
+import org.ligi.gobandroid_hd.logic.sgf.SGFReader
 import org.ligi.gobandroid_hd.ui.GoPrefs.engineLevel
+import java.io.FileInputStream
 import kotlin.getValue
 
 class GameStartActivity : AppCompatActivity() {
@@ -35,17 +37,15 @@ class GameStartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*
-        val katago = KataGoNative()
-        val setup = KataGoSetup(this, assets)
-        setup.extractFiles()
-        katago.initNative(Runtime.getRuntime().availableProcessors(), setup.configFile.absolutePath, setup.modelFile.absolutePath)
-        */
-        /*
-        val ray = RayNative()
-        ray.initNative(Runtime.getRuntime().availableProcessors(), 1.0)
-        ray.setupAssetParams(assets)
-         */
+        intent?.data?.let { url->
+            val text = contentResolver.openFileDescriptor(url, "r")!!.use {desc->
+                val fis = FileInputStream(desc.fileDescriptor)
+                fis.bufferedReader().use { it.readText() }
+            }
+            loadSGF(text)
+            return
+        }
+
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_game_start)
@@ -102,6 +102,13 @@ class GameStartActivity : AppCompatActivity() {
             }
             clearGame(boardSize)
             Intent(this@GameStartActivity, PlayAgainstEngineActivity::class.java).let { startActivity(it) }
+        }
+    }
+
+    private fun loadSGF(text: String) {
+        Intent(this, ReviewActivity::class.java).let {
+            it.putExtra("SGF_DATA", text)
+            startActivity(it)
         }
     }
 

@@ -12,6 +12,7 @@ import org.ligi.gobandroid_hd.R
 import org.ligi.gobandroid_hd.logic.Cell
 import org.ligi.gobandroid_hd.logic.GTPHelper
 import org.ligi.gobandroid_hd.logic.GoGame
+import org.ligi.gobandroid_hd.logic.sgf.SGFReader
 import org.ligi.gobandroid_hd.ui.GoActivity
 
 class ReviewActivity: GoActivity() {
@@ -19,6 +20,12 @@ class ReviewActivity: GoActivity() {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         game.clearHint()
+
+        intent?.getStringExtra("SGF_DATA")?.let {text->
+            SGFReader.sgf2game(text, null)?.let {
+                gameProvider.set(it)
+            }
+        }
     }
 
     fun formatPV(cells: List<Cell>) : String {
