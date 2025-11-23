@@ -243,4 +243,6 @@
     <string name="save_label">保存</string>
     <string name="kifutweet2_name">つぶや棋譜2</string>
     <string name="kifutweet2_owner">政光順二</string>
+    <string name="copy_to_clipboard">クリップボードにコピー</string>
+    <string name="sgf_copied_to_clipboard">SGFをクリップボードにコピーしました。</string>
 </resources>

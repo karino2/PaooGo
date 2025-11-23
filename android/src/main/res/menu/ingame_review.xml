@@ -14,8 +14,14 @@
     <item
         android:title="@string/share"
         android:id="@+id/menu_game_share"
+        android:icon="@drawable/ic_social_share"
+        yourapp:showAsAction="ifRoom|withText"/>
+
+    <item
+        android:title="@string/copy_to_clipboard"
+        android:id="@+id/menu_game_copy"
         yourapp:showAsAction="withText"/>
-    
+
     <item
         android:title="@string/back_to_title"
         android:id="@+id/menu_back_to_title"

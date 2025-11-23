@@ -338,4 +338,6 @@
     <string name="save_label">Save</string>
     <string name="kifutweet2_name">KifuTweet2</string>
     <string name="kifutweet2_owner">Junji Masamitsu</string>
+    <string name="copy_to_clipboard">Copy to Clipboard</string>
+    <string name="sgf_copied_to_clipboard">SGF is copied to clipboard.</string>
 </resources>

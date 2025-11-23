@@ -23,6 +23,8 @@ package org.ligi.gobandroid_hd.ui
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -266,13 +268,24 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
                 shareAsUrl()
                 return true
             }
+            R.id.menu_game_copy -> {
+                copySGFToClipboard();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
+    private fun copySGFToClipboard() {
+        val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("SGF", gameSGFText())
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(this, getString(R.string.sgf_copied_to_clipboard), Toast.LENGTH_LONG).show()
+    }
+
     private fun shareAsUrl() {
-        val sgf = SGFWriter.game2sgf(game, getString(R.string.app_name))
+        val sgf = gameSGFText()
         val encoded = URLEncoder.encode(sgf, Charsets.UTF_8.toString())
         val url = "https://gokifu.net/kifutweet2.php?sgf=${encoded}"
         Intent().apply {
@@ -282,6 +295,11 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         }.let {
             startActivity(Intent.createChooser(it, null))
         }
+    }
+
+    private fun gameSGFText(): String {
+        val sgf = SGFWriter.game2sgf(game, getString(R.string.app_name))
+        return sgf
     }
 
     fun switchToCounting() {
