@@ -1,6 +1,7 @@
 package io.github.karino2.paoogo.goengine.fuseki
 
 import org.ligi.gobandroid_hd.logic.Cell
+import org.ligi.gobandroid_hd.logic.CellImpl
 
 class Fuseki(val currentPos : Int, val fuseki : List<Cell>) {
     val currentCell: Cell
@@ -32,7 +33,13 @@ class FusekiSet(var fusekiList: List<Fuseki>) {
 
     fun peekMove() : Cell {
         assert(stillFuseki)
-        return fusekiList.random().currentCell
+        // To OudouSinkou and Furiko equally distributed.
+        val nextSet = fusekiList.map {
+            val cell = it.currentCell
+            Pair(cell.x, cell.y)
+        }.toSet()
+        val nmove = nextSet.random()
+        return CellImpl(nmove.first, nmove.second)
     }
 
     fun clone() = FusekiSet(fusekiList)
