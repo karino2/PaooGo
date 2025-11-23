@@ -22,3 +22,9 @@ Download: [GooglePlay: PaooGo](https://play.google.com/store/apps/details?id=io.
 - [karino2/KataGo: android_fork](https://github.com/karino2/KataGo)
 - [karino2/AmigoGtpFork](https://github.com/karino2/AmigoGtpFork)
 - [karino2/gnugo_fork: android_fork](https://github.com/karino2/gnugo_fork)
+
+
+## Used libraties, etc.
+
+- [PhilJay/MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+- [KifuTweet2](https://gokifu.net/kifutweet2.php)

@@ -241,4 +241,6 @@
   <string name="show_graph">グラフ</string>
     <string name="remove_black_name">黒の名前を削除</string>
     <string name="save_label">保存</string>
+    <string name="kifutweet2_name">つぶや棋譜2</string>
+    <string name="kifutweet2_owner">政光順二</string>
 </resources>

@@ -42,6 +42,7 @@ class AboutActivity : AppCompatActivity() {
         LinkWithDescription("https://lists.gnu.org/archive/html/gnugo-devel/2005-08/msg00036.html", "Liberty", "GnuGo fork"),
         LinkWithDescription("https://github.com/lightvector/KataGo", "KataGo"),
         LinkWithDescription("https://www.gnu.org/software/gnugo/devel.html", "GnuGo"),
+        LinkWithDescription("https://gokifu.net/kifutweet2.php", getString(R.string.kifutweet2_name), getString(R.string.kifutweet2_owner)),
 
         LinkWithDescription("http://ligi.de", "gobandroid, PaooGo forked from", "Ligi"),
         LinkWithDescription("http://jakewharton.github.io/butterknife/", "Jake Wharton", "ButterKnife"),

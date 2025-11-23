@@ -83,6 +83,8 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.util.Locale
+import androidx.core.net.toUri
+import java.net.URLEncoder
 
 
 /**
@@ -238,7 +240,7 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
         if(GoPrefs.storeDirUri.isEmpty()) {
             getStoreDirUrl.launch(null)
         } else {
-            saveSGFDialogUnder(Uri.parse(GoPrefs.storeDirUri))
+            saveSGFDialogUnder(GoPrefs.storeDirUri.toUri())
         }
     }
 
@@ -260,9 +262,26 @@ open class GoActivity : GobandroidFragmentActivity(), OnTouchListener, OnKeyList
                 saveSGF()
                 return true
             }
+            R.id.menu_game_share -> {
+                shareAsUrl()
+                return true
+            }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun shareAsUrl() {
+        val sgf = SGFWriter.game2sgf(game, getString(R.string.app_name))
+        val encoded = URLEncoder.encode(sgf, Charsets.UTF_8.toString())
+        val url = "https://gokifu.net/kifutweet2.php?sgf=${encoded}"
+        Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, url)
+            type="text/plain"
+        }.let {
+            startActivity(Intent.createChooser(it, null))
+        }
     }
 
     fun switchToCounting() {
