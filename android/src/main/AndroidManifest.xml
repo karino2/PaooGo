@@ -23,9 +23,12 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/base_theme">
         <activity
+            android:name="io.github.karino2.paoogo.ui.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name="io.github.karino2.paoogo.ui.GameStartActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +36,9 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/x-go-sgf" />
             </intent-filter>
         </activity>
@@ -42,7 +47,8 @@
             android:name="com.sec.android.app.multiwindow"
             android:required="false" />
 
-        <activity android:name="io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity"
+        <activity
+            android:name="io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity"
             android:screenOrientation="portrait" />
         <activity android:name="io.github.karino2.paoogo.ui.ReviewActivity" />
         <activity android:name=".ui.BaseProfileActivity" />

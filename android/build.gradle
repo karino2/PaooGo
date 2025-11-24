@@ -109,6 +109,7 @@ dependencies {
     implementation "com.github.permissions-dispatcher:permissionsdispatcher:4.9.2"
     implementation 'androidx.activity:activity-ktx:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.activity:activity:1.11.0'
     kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.9.2"
     implementation 'com.github.salomonbrys.kodein:kodein:4.1.0'
     implementation 'androidx.appcompat:appcompat:1.7.1'

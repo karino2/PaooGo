@@ -125,10 +125,18 @@ class PlayAgainstEngineActivity : GoActivity() {
     private fun setupEngine() {
         val epair = engineRepository.getEngine(GoPrefs.engineLevel)
         engine = epair.first
-        game.setPlayerName( getString(R.string.you),getString(epair.second))
+        game.setPlayerName(getYourName(),getString(epair.second))
         engine.setKomi(game.komi)
         engine.setBoardSize(game.boardSize)
         engine.clearBoard()
+    }
+
+    private fun getYourName(): String {
+        return if(GoPrefs.username == "") {
+            getString(R.string.you)
+        } else {
+            GoPrefs.username
+        }
     }
 
     private fun syncAnalyzer() : GoAnalyzer {

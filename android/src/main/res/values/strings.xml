@@ -340,4 +340,5 @@
     <string name="kifutweet2_owner">Junji Masamitsu</string>
     <string name="copy_to_clipboard">Copy to Clipboard</string>
     <string name="sgf_copied_to_clipboard">SGF is copied to clipboard.</string>
+    <string name="your_name">Your Name</string>
 </resources>

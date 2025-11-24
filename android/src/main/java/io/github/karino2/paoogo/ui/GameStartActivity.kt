@@ -2,7 +2,6 @@ package io.github.karino2.paoogo.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.os.IResultReceiver
 import android.view.Menu
 import android.view.MenuItem
 import android.view.accessibility.AccessibilityEvent.INVALID_POSITION
@@ -26,7 +25,6 @@ import org.ligi.gobandroid_hd.logic.GoGame
 import org.ligi.gobandroid_hd.model.GameProvider
 import org.ligi.gobandroid_hd.ui.GoPrefs
 import io.github.karino2.paoogo.ui.vs_engine.PlayAgainstEngineActivity
-import org.ligi.gobandroid_hd.logic.sgf.SGFReader
 import org.ligi.gobandroid_hd.ui.GoPrefs.engineLevel
 import java.io.FileInputStream
 import kotlin.getValue
@@ -146,6 +144,7 @@ class GameStartActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.menu_about -> Intent(this, AboutActivity::class.java).let { startActivity(it) }
+            R.id.menu_settings -> Intent(this, SettingsActivity::class.java).let { startActivity(it) }
         }
         return super.onOptionsItemSelected(item)
     }
