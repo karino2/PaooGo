@@ -125,14 +125,14 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             } else {
                 game.redo(0)
             }
-            syncGraphHighlight()
+            afterMove()
         }
 
         binding.btnPrev.setOnClickListener {
             game.clearAnalyzerInfo()
             if (game.canUndo()) {
                 game.undo()
-                syncGraphHighlight()
+                afterMove()
             }
         }
 
@@ -149,7 +149,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             } else {
                 game.jump(nextJunction)
             }
-            syncGraphHighlight()
+            afterMove()
         }
 
         binding.btnLast.setOnLongClickListener {
@@ -193,7 +193,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         return builder.toString()
 
     }
-    
+
     private val analyzeCache = mutableMapOf<String, List<AnalyzeInfo>>()
 
     private fun doAnalyze() {
@@ -258,6 +258,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         game.findFirstMove().findFollowingAt(pos)?.let {
             game.jump(it)
         }
+        applyAnalyzeInfoCache()
     }
 
     private fun gotoFirst() {
@@ -269,7 +270,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             showJunctionInfoSnack(R.string.found_junction_snack_for_first)
             game.jump(nextJunction.nextMoveVariations[0])
         }
-        syncGraphHighlight()
+        afterMove()
     }
 
     private fun syncGraphHighlight() {
@@ -280,6 +281,19 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             return
         val x = dataSet.getEntryForIndex(targetPos)?.x ?: return
         binding.plot.highlightValue(x, 0)
+    }
+
+    fun applyAnalyzeInfoCache() {
+        val key = game.replayMoves().serialize()
+        analyzeCache.get(key)?.let {
+            game.setAnalyzeInfo(it)
+            postGameChangeEvent()
+        }
+    }
+
+    private fun afterMove() {
+        syncGraphHighlight()
+        applyAnalyzeInfoCache()
     }
 
     private var graphAvailable = false
