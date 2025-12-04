@@ -88,8 +88,11 @@ class GameStartActivity : AppCompatActivity() {
                         /*
                           for non 9ro, fuseki engine is not supported.
                           So skip fuseki engine level by hand.
+
+                          map based on strings.xml level_array to level_9sz_array
                          */
-                        7 -> 9
+                        in 3..5 -> it+2
+                        6 -> 10
                         else -> it+1
                     }
                }

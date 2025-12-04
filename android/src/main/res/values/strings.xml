@@ -302,6 +302,7 @@
     <string name="paomigojr">Paomigo Jr.</string>
     <string name="paomigo">Paomigo</string>
     <string name="paolibe">Paolibe</string>
+    <string name="paolibepapa">Paolibe Papa</string>
     <string name="paognulijr">Paognuli Jr.</string>
     <string name="paognuli">Paognuli</string>
     <string name="paognujr">Paognu Jr.</string>
@@ -314,23 +315,24 @@
         <item>Lv1 Paomigo Jr.</item>
         <item>Lv2 Paomigo</item>
         <item>Lv3 Paolibe</item>
-        <item>Lv4 Paognuli Jr.</item>
-        <item>Lv5 Paognuli</item>
-        <item>Lv6 Paognu Jr.</item>
-        <item>Lv7 Paofuse Jr.</item>
-        <item>Lv8 Paofuse</item>
-        <item>Lv9 Paognu</item>
-        <item>Lv10 Paognu Papa</item>
-        <item>Lv11 Paognu Grandpa</item>
+        <item>Lv4 Paolibe Papa</item>
+        <item>Lv5 Paognuli Jr.</item>
+        <item>Lv6 Paognuli</item>
+        <item>Lv7 Paognu Jr.</item>
+        <item>Lv8 Paofuse Jr.</item>
+        <item>Lv9 Paofuse</item>
+        <item>Lv10 Paognu</item>
+        <item>Lv11 Paognu Papa</item>
+        <item>Lv12 Paognu Grandpa</item>
     </string-array>
     <string-array name="level_array">
         <item>Lv1 Paomigo Jr.</item>
         <item>Lv2 Paomigo</item>
         <item>Lv3 Paolibe</item>
-        <item>Lv4 Paognuli Jr.</item>
-        <item>Lv5 Paognuli</item>
-        <item>Lv6 Paognu Jr.</item>
-        <item>Lv7 Paognu</item>
+        <item>Lv5 Paognuli Jr.</item>
+        <item>Lv6 Paognuli</item>
+        <item>Lv7 Paognu Jr.</item>
+        <item>Lv10 Paognu</item>
     </string-array>
     <string name="about">About</string>
     <string name="show_graph">Graph</string>

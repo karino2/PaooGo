@@ -69,17 +69,18 @@ class EngineRepository(val context: Context, val assetManager: AssetManager) {
             1-> Pair(amigoEngine.apply { setLevel(0) }, R.string.paomigojr)
             2-> Pair(amigoEngine.apply { setLevel(7)}, R.string.paomigo)
             3-> Pair(libertyEngine, R.string.paolibe)
-            4-> {
+            4-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, libertyEngine), R.string.paolibepapa)
+            5-> {
                 hybridEngine(1, R.string.paognulijr)
             }
-            5-> {
+            6-> {
                 hybridEngine(2, R.string.paognuli)
             }
-            6-> Pair(gnugo2Engine, R.string.paognujr)
-            7-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, gnugo2Engine), R.string.paofusejr)
-            8-> Pair(FusekiEngine(fusekiSet, FusekiLevel.ALMOST, gnugo2Engine), R.string.paofuse)
-            9-> Pair(gnugo3Engine, R.string.paognu)
-            10-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, gnugo3Engine), R.string.paognupapa)
+            7-> Pair(gnugo2Engine, R.string.paognujr)
+            8-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, gnugo2Engine), R.string.paofusejr)
+            9-> Pair(FusekiEngine(fusekiSet, FusekiLevel.ALMOST, gnugo2Engine), R.string.paofuse)
+            10-> Pair(gnugo3Engine, R.string.paognu)
+            11-> Pair(FusekiEngine(fusekiSet, FusekiLevel.SELDOM, gnugo3Engine), R.string.paognupapa)
             else-> Pair(FusekiEngine(fusekiSet, FusekiLevel.ALMOST, gnugo3Engine), R.string.paognugrandpa)
         }
     }
