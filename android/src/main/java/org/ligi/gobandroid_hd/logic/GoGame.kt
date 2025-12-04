@@ -248,6 +248,7 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
     }
 
     fun pass() {
+        clearHint()
         if (actMove.isPassMove) {
             // finish game if both passed
             actMove = GoMove(actMove)
@@ -271,6 +272,7 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
             // game is finished - players are marking dead stones
             return MoveStatus.VALID
         }
+        clearHint()
 
         val nextMove: GoMove = GoMove(cell, actMove, calcBoard)
         val errorStatus = nextMove.getErrorStatus(calcBoard)
@@ -355,6 +357,7 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
     fun undo(keep_move: Boolean = true) {
         undoCaptures()
         removeLastVariationMarker()
+        clearHint()
         actMove = actMove.undo(calcBoard, keep_move)
         refreshBoards()
     }
@@ -366,6 +369,7 @@ class GoGame @JvmOverloads constructor(size: Int, handicap: Int = 0) {
     }
 
     fun redo(move: GoMove) {
+        clearHint()
         actMove = actMove.redo(calcBoard, move)
         actMove.variationMarker?.let {
             addVariationMarker(it)

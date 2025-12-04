@@ -150,7 +150,6 @@ class PlayAgainstEngineActivity : GoActivity() {
                 Toast.makeText(this, R.string.ai_is_thinking, Toast.LENGTH_SHORT).show()
                 return GoGame.MoveStatus.VALID
             }
-            game.clearHint()
             // use value before doMoveWithUIFeedback.
             val isBlack = game.isBlackToMove
             val ret = super.doMoveWithUIFeedback(cell)
@@ -173,7 +172,6 @@ class PlayAgainstEngineActivity : GoActivity() {
 
     private fun genMove() {
         engineGoGame.aiIsThinking = true
-        game.clearHint()
         busyIndicator.visibility = View.VISIBLE
         val waiter = Waiter(200)
         lifecycleScope.launch {
