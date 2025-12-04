@@ -26,6 +26,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import io.github.karino2.paoogo.goengine.AnalyzeInfo
 import io.github.karino2.paoogo.goengine.GoAnalyzer
 import io.github.karino2.paoogo.ui.vs_engine.Message
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,7 @@ import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
 import org.ligi.gobandroid_hd.databinding.ReviewExtraFragmentBinding
 import org.ligi.gobandroid_hd.logic.GoGame
+import org.ligi.gobandroid_hd.logic.GoMove
 
 class UpdatingScoreDialogFragment(val cancelListener: ()->Unit) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -162,17 +164,7 @@ class ReviewFragment : GobandroidGameAwareFragment() {
         }
 
         binding.btnAnalyze.setOnClickListener {
-            val busyIndicator = requireActivity().findViewById<ProgressBar>(R.id.busy_indicator)
-            busyIndicator.visibility = View.VISIBLE
-            viewLifecycleOwner.lifecycleScope.launch {
-                analyzer.sync(game)
-                val info = withContext(Dispatchers.IO) {
-                    analyzer.analyzeSituation(game.isBlackToMove, game)
-                }
-                busyIndicator.visibility = View.GONE
-                game.setAnalyzeInfo(info)
-                postGameChangeEvent()
-            }
+            doAnalyze()
         }
 
         setupPlot()
@@ -181,6 +173,51 @@ class ReviewFragment : GobandroidGameAwareFragment() {
             analyzeGraph()
         }
 
+    }
+
+    // use for cache key.
+    private fun List<GoMove>.serialize() : String {
+        val builder = StringBuilder()
+        for (move in this) {
+            // どうもisFirstMoveがtrueの時は何も無いらしい。
+            if (move.isFirstMove)
+                continue
+
+            if (move.isPassMove) {
+                builder.append("pass")
+            } else {
+                builder.append('a' + move.cell!!.x)
+                builder.append('a' + move.cell!!.y)
+            }
+        }
+        return builder.toString()
+
+    }
+    
+    private val analyzeCache = mutableMapOf<String, List<AnalyzeInfo>>()
+
+    private fun doAnalyze() {
+        val key = game.replayMoves().serialize()
+
+        analyzeCache.get(key)?.let {
+            game.setAnalyzeInfo(it)
+            postGameChangeEvent()
+            return
+        }
+
+        val busyIndicator = requireActivity().findViewById<ProgressBar>(R.id.busy_indicator)
+        busyIndicator.visibility = View.VISIBLE
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            analyzer.sync(game)
+            val info = withContext(Dispatchers.IO) {
+                analyzer.analyzeSituation(game.isBlackToMove, game)
+            }
+            busyIndicator.visibility = View.GONE
+            game.setAnalyzeInfo(info)
+            analyzeCache.put(key, info)
+            postGameChangeEvent()
+        }
     }
 
     private fun setupPlot() {
