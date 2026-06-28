@@ -62,6 +62,8 @@ class GameStartActivity : AppCompatActivity() {
             } else {
                 setup9RoLevelAdapter()
             }
+            if(!isPlayerBlack)
+                findViewById<RadioButton>(R.id.player_white).isChecked = true
         }
         findViewById<RadioButton>(R.id.board_size_13).setOnCheckedChangeListener { _, isChecked->
             if(isChecked)
@@ -100,6 +102,7 @@ class GameStartActivity : AppCompatActivity() {
             GoPrefs.bulk {
                 lastBoardSize = boardSize
                 engineLevel = comLevel
+                isPlayerBlack = findViewById<RadioGroup>(R.id.player_black_white_group).checkedRadioButtonId == R.id.player_black
             }
             clearGame(boardSize)
             Intent(this@GameStartActivity, PlayAgainstEngineActivity::class.java).let { startActivity(it) }

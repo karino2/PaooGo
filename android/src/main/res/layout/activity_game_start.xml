@@ -36,11 +36,39 @@
     </RadioGroup>
 
     <TextView
+        android:id="@+id/teban_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/teban"
+        android:layout_below="@id/board_size_group" />
+
+    <RadioGroup
+        android:id="@+id/player_black_white_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/teban_label">
+        <RadioButton
+            android:id="@+id/player_black"
+            android:text="@string/player_black"
+            android:checked="true"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/player_white"
+            android:text="@string/player_white"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+
+    <TextView
         android:id="@+id/level_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/board_size_group"
+        android:layout_below="@id/player_black_white_group"
         android:text="@string/computer_level" />
 
     <Spinner

@@ -32,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.milliseconds
 
 class Waiter(private val minMillis: Long) {
 
@@ -43,7 +44,7 @@ class Waiter(private val minMillis: Long) {
         val requiredDelay = minMillis - elapsedTime
 
         if (requiredDelay > 0) {
-            delay(requiredDelay)
+            delay(requiredDelay.milliseconds)
         }
     }
 }
@@ -52,7 +53,7 @@ class Waiter(private val minMillis: Long) {
     Similar to PlayAgainstGnuGoActivity, but use local engine instead.
  */
 class PlayAgainstEngineActivity : GoActivity() {
-    private val engineGoGame by lazy { EngineGoGame(false, true, game) }
+    private val engineGoGame by lazy { EngineGoGame(game) }
     private lateinit var engine : GoEngine
 
     private val engineRepository : EngineRepository
@@ -98,6 +99,7 @@ class PlayAgainstEngineActivity : GoActivity() {
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
+                engineGoGame.setPlayerIsBlack(GoPrefs.isPlayerBlack)
                 setupEngine()
             }
             updatePlayerName()

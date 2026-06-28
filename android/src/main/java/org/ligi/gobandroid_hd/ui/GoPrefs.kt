@@ -48,6 +48,8 @@ object GoPrefs : KotprefModel() {
 
     var hasAcknowledgedJunctionInfo: Boolean by booleanPref(default = false)
 
+    var isPlayerBlack: Boolean by booleanPref(default = true)
+
     var lastBoardSize: Int by intPref(default = 9)
     var lastHandicap: Int by intPref(default = 0)
 
