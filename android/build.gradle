@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -20,6 +21,8 @@ repositories {
     maven { url 'https://linkedin.jfrog.io/artifactory/open-source/' }
 }
 
+def appVersionName = "0.8"
+
 android {
     namespace "org.ligi.gobandroid_hd"
 
@@ -29,8 +32,8 @@ android {
     }
 
     tasks.withType(KotlinCompile).configureEach {
-        kotlinOptions {
-            jvmTarget = "1.8"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
 
@@ -40,21 +43,25 @@ android {
         }
     }
 
-    compileSdkVersion 36
+    compileSdk = 37
 
     defaultConfig {
-        versionCode 8
-        versionName "0.8"
-        minSdkVersion 26
-        targetSdkVersion 36
-        applicationId "io.github.karino2.paoogo"
-        testInstrumentationRunner "io.github.karino2.paoogo.AppReplacingRunner"
-        archivesBaseName = "PaooGo-$versionName"
+        applicationId = "io.github.karino2.paoogo"
+        minSdk = 26
+        targetSdk = 37
+        versionCode = 8
+        versionName = appVersionName
+
+        testInstrumentationRunner = "io.github.karino2.paoogo.AppReplacingRunner"
         vectorDrawables.useSupportLibrary = true
     }
-    packagingOptions {
+    packaging {
         resources {
-            excludes += ['asm-license.txt', 'LICENSE', 'NOTICE', 'LICENSE.txt', 'META-INF/lib_release.kotlin_module']
+            excludes.add('asm-license.txt')
+            excludes.add('LICENSE')
+            excludes.add('NOTICE')
+            excludes.add('LICENSE.txt')
+            excludes.add('META-INF/lib_release.kotlin_module')
         }
     }
 
@@ -71,7 +78,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
             signingConfig signingConfigs.debug
         }
 
@@ -95,6 +102,10 @@ android {
         noCompress 'bin', 'txt_gz', 'bin_gz'
     }
 } // android
+
+base {
+    archivesName = "PaooGo-$appVersionName"
+}
 
 configurations {
     configureEach {
